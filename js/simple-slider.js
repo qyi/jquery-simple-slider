@@ -125,12 +125,18 @@ var __slice = [].slice,
       return item;
     };
 
-    SimpleSlider.prototype.setRatio = function(ratio) {
+    SimpleSlider.prototype.setRawRatio = function(ratio) {
       var value;
       ratio = Math.min(1, ratio);
       ratio = Math.max(0, ratio);
       value = this.ratioToValue(ratio);
       this.setSliderPositionFromValue(value);
+      return value;
+    };
+
+    SimpleSlider.prototype.setRatio = function(ratio) {
+      var value;
+      value = this.setRawRatio(ratio);
       return this.valueChanged(value, ratio, "setRatio");
     };
 
@@ -309,7 +315,7 @@ var __slice = [].slice,
     simpleSlider: function() {
       var params, publicMethods, settingsOrMethod;
       settingsOrMethod = arguments[0], params = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
-      publicMethods = ["setRatio", "setValue"];
+      publicMethods = ["setRatio", "setRawRatio", "setValue"];
       return $(this).each(function() {
         var obj, settings;
         if (settingsOrMethod && __indexOf.call(publicMethods, settingsOrMethod) >= 0) {

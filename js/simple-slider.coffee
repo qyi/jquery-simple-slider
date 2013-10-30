@@ -144,11 +144,9 @@
           cursor: "pointer"
         .appendTo @slider
       return item
-    
 
-    # Set the ratio (value between 0 and 1) of the slider.
-    # Exposed via el.slider("setRatio", ratio)
-    setRatio: (ratio) ->
+    # Set the raw ratio
+    setRawRatio: (ratio) ->
       # Range-check the ratio
       ratio = Math.min(1, ratio)
       ratio = Math.max(0, ratio)
@@ -158,6 +156,13 @@
 
       # Update the position of the slider on the screen
       @setSliderPositionFromValue(value)
+      
+      value
+
+    # Set the ratio (value between 0 and 1) of the slider.
+    # Exposed via el.slider("setRatio", ratio)
+    setRatio: (ratio) ->
+      value = @setRawRatio ratio
 
       # Trigger value changed events
       @valueChanged(value, ratio, "setRatio")
@@ -322,7 +327,7 @@
   #
 
   $.extend $.fn, simpleSlider: (settingsOrMethod, params...) ->
-    publicMethods = ["setRatio", "setValue"]
+    publicMethods = ["setRatio", "setRawRatio", "setValue"]
 
     $(this).each ->
       if settingsOrMethod and settingsOrMethod in publicMethods
